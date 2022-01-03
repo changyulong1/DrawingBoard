@@ -18,29 +18,39 @@
         let ctx = canvas.getContext("2d");
         let x = false
         ctx.fillStyle = "#000";
-        ctx.strokeStyle = 'none'
+        ctx.strokeStyle = 'none';
+        ctx.lineWidth = 5;
+        ctx.lineCap = "round";
+        let xian;
+        function hua(x, y, x1, y1) {
+            ctx.moveTo(x, y);
+            ctx.lineTo(x1, y1);
+            ctx.stroke()
+        }
         let isTouchDevice = 'ontouchstart' in document.documentElement;
         console.log(isTouchDevice)
         if (isTouchDevice) {
+            canvas.ontouchstart = (e) => {
+                let x = e.touches[0].clientX
+                let y = e.touches[0].clientY
+                xian = [x, y]
+            }
             canvas.ontouchmove = (e) => {
                 let x = e.touches[0].clientX
                 let y = e.touches[0].clientY
-                console.log(x, y)
-                ctx.beginPath();
-                ctx.arc(x, y, 5, 0, 2 * Math.PI);
-                ctx.stroke();
-                ctx.fill()
+                hua(xian[0], xian[1], x, y)
+                xian = [x, y]
+
             }
         } else {
-            canvas.onmousedown = () => {
+            canvas.onmousedown = (e) => {
                 x = true
+                xian = [e.clientX, e.clientY]
             }
             canvas.onmousemove = (e) => {
                 if (x === true) {
-                    ctx.beginPath();
-                    ctx.arc(e.clientX, e.clientY, 5, 0, 2 * Math.PI);
-                    ctx.stroke();
-                    ctx.fill()
+                    hua(xian[0], xian[1], e.clientX, e.clientY)
+                    xian = [e.clientX, e.clientY]
                 } else {
                     console.log('什么也不做')
                 }
