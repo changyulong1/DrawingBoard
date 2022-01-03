@@ -4,7 +4,6 @@
     box-sizing:border-box;
 }
 #canvas{
-    height: 100vh;
+   display: block;
     border: 1px solid red;
-
 }
