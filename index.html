@@ -17,20 +17,21 @@
         canvas.height = document.documentElement.clientHeight
         let ctx = canvas.getContext("2d");
         let x = false
+        ctx.fillStyle = "#000";
         canvas.onmousedown = () => {
-            console.log('按下')
             x = true
         }
         canvas.onmousemove = (e) => {
             if (x === true) {
-                ctx.fillStyle = "#000";
-                ctx.fillRect(e.clientX - 5, e.clientY - 5, 10, 10);
+                ctx.beginPath();
+                ctx.arc(e.clientX, e.clientY, 5, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.fill()
             } else {
-                console.log('鼠标以松开')
+                console.log('什么也不做')
             }
         }
         canvas.onmouseup = () => {
-            console.log('songkai')
             x = false
         }
     </script>
