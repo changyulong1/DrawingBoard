@@ -18,22 +18,39 @@
         let ctx = canvas.getContext("2d");
         let x = false
         ctx.fillStyle = "#000";
-        canvas.onmousedown = () => {
-            x = true
-        }
-        canvas.onmousemove = (e) => {
-            if (x === true) {
+        ctx.strokeStyle = 'none'
+        let isTouchDevice = 'ontouchstart' in document.documentElement;
+        console.log(isTouchDevice)
+        if (isTouchDevice) {
+            canvas.ontouchmove = (e) => {
+                let x = e.touches[0].clientX
+                let y = e.touches[0].clientY
+                console.log(x, y)
                 ctx.beginPath();
-                ctx.arc(e.clientX, e.clientY, 5, 0, 2 * Math.PI);
+                ctx.arc(x, y, 5, 0, 2 * Math.PI);
                 ctx.stroke();
                 ctx.fill()
-            } else {
-                console.log('什么也不做')
             }
+        } else {
+            canvas.onmousedown = () => {
+                x = true
+            }
+            canvas.onmousemove = (e) => {
+                if (x === true) {
+                    ctx.beginPath();
+                    ctx.arc(e.clientX, e.clientY, 5, 0, 2 * Math.PI);
+                    ctx.stroke();
+                    ctx.fill()
+                } else {
+                    console.log('什么也不做')
+                }
+            }
+            canvas.onmouseup = () => {
+                x = false
+            }
+
         }
-        canvas.onmouseup = () => {
-            x = false
-        }
+
     </script>
 </body>
 
